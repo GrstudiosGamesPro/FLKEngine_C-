@@ -157,6 +157,7 @@
     <ClInclude Include="DrawableObjects\VolumetricClouds.h" />
     <ClInclude Include="DrawableObjects\Water.h" />
     <ClInclude Include="EngineData\HudRender.h" />
+    <ClInclude Include="EngineData\LUA_FUNCTIONS\LuaCompiller.h" />
     <ClInclude Include="Engine\BaseShader.h" />
     <ClInclude Include="Engine\buffers.h" />
     <ClInclude Include="Engine\glError.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="DrawableObjects\VolumetricClouds.cpp" />
     <ClCompile Include="DrawableObjects\Water.cpp" />
     <ClCompile Include="EngineData\HudRender.cpp" />
+    <ClCompile Include="EngineData\LUA_FUNCTIONS\LuaCompiller.cpp" />
     <ClCompile Include="Engine\BaseShader.cpp" />
     <ClCompile Include="Engine\buffers.cpp" />
     <ClCompile Include="Engine\glError.cpp" />

@@ -49,7 +49,7 @@ int main()
 	camera.Position = startPosition;
 
 	int success;
-	Window window(success, 1920, 1080);
+	Window window(success, 500, 700);
 	if (!success) return -1;
 
 	window.camera = &camera;

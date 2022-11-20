@@ -5,7 +5,5 @@
 
 class LuaCompiller
 {
-	lua_State* testLua = lua_newstate();
-
 
 };
