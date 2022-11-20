@@ -30,10 +30,10 @@ void VolumetricClouds::draw() {
 	cloudsShader.setVec2("iResolution", glm::vec2(SCR_WIDTH, SCR_HEIGHT));
 	cloudsShader.setFloat("iTime", glfwGetTime());
 	cloudsShader.setMat4("inv_proj", glm::inverse(s->projMatrix));
-	cloudsShader.setMat4("inv_view", glm::inverse(s->cam->GetViewMatrix()));
-	cloudsShader.setVec3("cameraPosition", s->cam->Position);
-	cloudsShader.setFloat("FOV", s->cam->Zoom);
-	cloudsShader.setVec3("lightDirection", glm::normalize(s->lightPos - s->cam->Position));
+	cloudsShader.setMat4("inv_view", glm::inverse(s->CurrentCamera->GetViewMatrix()));
+	cloudsShader.setVec3("cameraPosition", s->CurrentCamera->Position);
+	cloudsShader.setFloat("FOV", s->CurrentCamera->Zoom);
+	cloudsShader.setVec3("lightDirection", glm::normalize(s->lightPos - s->CurrentCamera->Position));
 	cloudsShader.setVec3("lightColor", s->lightColor);
 	
 	cloudsShader.setFloat("coverage_multiplier", model->coverage);
@@ -55,7 +55,7 @@ void VolumetricClouds::draw() {
 	cloudsShader.setVec3("skyColorTop", model->sky->skyColorTop);
 	cloudsShader.setVec3("skyColorBottom", model->sky->skyColorBottom);
 
-	glm::mat4 vp = s->projMatrix*s->cam->GetViewMatrix();
+	glm::mat4 vp = s->projMatrix*s->CurrentCamera->GetViewMatrix();
 	cloudsShader.setMat4("invViewProj", glm::inverse(vp));
 	cloudsShader.setMat4("gVP", vp);
 
@@ -100,7 +100,7 @@ void VolumetricClouds::draw() {
 		cloudsPPShader.setVec4("lightPos", pos);
 
 		bool isLightInFront = false;
-		float lightDotCameraFront = glm::dot(glm::normalize(s->lightPos - s->cam->Position), glm::normalize(s->cam->Front));
+		float lightDotCameraFront = glm::dot(glm::normalize(s->lightPos - s->CurrentCamera->Position), glm::normalize(s->CurrentCamera->Front));
 		//std::cout << "light dot camera front= " << lightDotCameraFront << std::endl;
 		if (lightDotCameraFront > 0.2) {
 			isLightInFront = true;

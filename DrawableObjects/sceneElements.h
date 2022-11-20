@@ -10,7 +10,7 @@ struct sceneElements {
 
 	glm::vec3 lightPos, lightColor, lightDir, fogColor, seed;
 	glm::mat4 projMatrix;
-	Camera * cam;
+	Camera * CurrentCamera;
 	FrameBufferObject * sceneFBO;
 	bool wireframe = false;
 };

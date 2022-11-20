@@ -39,19 +39,19 @@
 #include "EngineData/HudRender.h"
 
 HudRender* hud = new HudRender();
+Camera camera = Camera();
+sceneElements scene;
 
 int main()
 {
 
-	// camera and window setup
 	glm::vec3 startPosition(0.0f, 800.0f, 0.0f);
-	Camera camera(startPosition);
+	camera.Position = startPosition;
 
 	int success;
 	Window window(success, 1920, 1080);
 	if (!success) return -1;
 
-	//Window class needs camera address to perform input handling
 	window.camera = &camera;
 
 	GUI gui(window);
@@ -63,18 +63,17 @@ int main()
 	FrameBufferObject SceneFBO(Window::SCR_WIDTH, Window::SCR_HEIGHT);
 	glm::vec3 lightPosition, seed;
 	glm::mat4 proj = glm::perspective(glm::radians(camera.Zoom), (float)Window::SCR_WIDTH / (float)Window::SCR_HEIGHT, 5.f, 10000000.0f);
-	glm::vec3 lightDir = glm::vec3(-.5, 0.5, 1.0);
+	glm::vec3 lightDir = glm::vec3(-.5, 45, 1.0);
 
-	//Every scene object need these informations to be rendered
-	sceneElements scene;
-	scene.lightPos = lightPosition;
-	scene.lightColor = lightColor;
-	scene.fogColor = fogColor;
-	scene.seed = seed;
-	scene.projMatrix = proj;
-	scene.cam = &camera;
-	scene.sceneFBO = &SceneFBO;
-	scene.lightDir = lightDir;
+		scene.lightPos = lightPosition;
+		scene.lightColor = lightColor;
+		scene.fogColor = fogColor;
+		scene.seed = seed;
+		scene.projMatrix = proj;
+		scene.CurrentCamera = &camera;
+		scene.sceneFBO = &SceneFBO;
+		scene.lightDir = lightDir;
+	
 
 	drawableObject::scene = &scene;
 
@@ -99,18 +98,14 @@ int main()
 	ScreenSpaceShader PostProcessing("shaders/post_processing.frag");
 	ScreenSpaceShader fboVisualizer("shaders/visualizeFbo.frag");
 
-	cout << "PROBANDO Main Ejecutado";
-
 	while (window.continueLoop())
 	{
 		scene.lightDir = glm::normalize(scene.lightDir);
 		scene.lightPos = scene.lightDir*1e6f + camera.Position;
 
-		// input
 		float frametime = 1 / ImGui::GetIO().Framerate;
 		window.processInput(frametime);
 
-		//update tiles position to make the world infinite, clouds weather map and sky colors
 		terrain.updateTilesPositions();
 		cloudsModel.update();
 		gui.update();
@@ -125,7 +120,6 @@ int main()
 		glClearColor(fogColor[0], fogColor[1], fogColor[2], 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//DRAW RENDER HUD
 		hud->water = &water;
 		hud->sky = &skybox;
 		hud->clouds = &cloudsModel;
@@ -143,7 +137,7 @@ int main()
 		}
 
 
-		glm::mat4 view = scene.cam->GetViewMatrix();
+		glm::mat4 view = scene.CurrentCamera->GetViewMatrix();
 		scene.projMatrix = glm::perspective(glm::radians(camera.Zoom), (float)Window::SCR_WIDTH / (float)Window::SCR_HEIGHT, 5.f,10000000.0f);
 
 		
@@ -153,8 +147,8 @@ int main()
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		scene.cam->invertPitch();
-		scene.cam->Position.y -= 2 * (scene.cam->Position.y - water.getHeight());
+		scene.CurrentCamera->invertPitch();
+		scene.CurrentCamera->Position.y -= 2 * (scene.CurrentCamera->Position.y - water.getHeight());
 		
 		terrain.up = 1.0;
 		terrain.draw();
@@ -176,8 +170,8 @@ int main()
 
 		ScreenSpaceShader::enableTests();
 		
-		scene.cam->invertPitch();
-		scene.cam->Position.y += 2 * abs(scene.cam->Position.y - water.getHeight());
+		scene.CurrentCamera->invertPitch();
+		scene.CurrentCamera->Position.y += 2 * abs(scene.CurrentCamera->Position.y - water.getHeight());
 		
 		//draw to water refraction buffer object
 		water.bindRefractionFBO();
@@ -206,7 +200,7 @@ int main()
 
 		post.use();
 		post.setVec2("resolution", glm::vec2(Window::SCR_WIDTH, Window::SCR_HEIGHT));
-		post.setVec3("cameraPosition", scene.cam->Position);
+		post.setVec3("cameraPosition", scene.CurrentCamera->Position);
 		post.setSampler2D("screenTexture", SceneFBO.tex, 0);
 		post.setSampler2D("cloudTEX", volumetricClouds.getCloudsTexture(), 1);
 		post.setSampler2D("depthTex", SceneFBO.depthTex, 2);

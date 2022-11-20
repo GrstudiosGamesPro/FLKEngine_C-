@@ -32,10 +32,10 @@ void GUI::draw()
 				scene.lightDir.y = saturate(scene.lightDir.y);
 				//skybox.update();
 			}
-			ImGui::InputFloat3("Camera Position", &(scene.cam->Position[0]), 7);
+			ImGui::InputFloat3("Camera Position", &(scene.CurrentCamera->Position[0]), 7);
 			ImGui::ColorEdit3("Light color", (float*)&scene.lightColor);
 			ImGui::ColorEdit3("Fog color", (float*)&scene.fogColor);
-			ImGui::SliderFloat("Camera speed", &scene.cam->MovementSpeed, 0.0, SPEED * 3.0);
+			ImGui::SliderFloat("Camera speed", &scene.CurrentCamera->MovementSpeed, 0.0, SPEED * 3.0);
 
 			ImGui::Checkbox("Wireframe mode", &scene.wireframe);
 

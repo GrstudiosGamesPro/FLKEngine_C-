@@ -86,7 +86,7 @@ void Terrain::deleteBuffer(){
 bool Terrain::getWhichTileCameraIs(glm::vec2& result) {
 
 	for (glm::vec2 p : positionVec) {
-		if (inTile(*(scene->cam), p)) {
+		if (inTile(*(scene->CurrentCamera), p)) {
 			//std::cout << "You're in Tile: " << p.x << ", " << p.y << std::endl;
 			result = p;
 			return true;
@@ -107,10 +107,10 @@ void Terrain::draw(){
 		glEnable(GL_CLIP_DISTANCE0);
 	}
 	glm::mat4 gWorld = modelMatrix;
-	glm::mat4 gVP = se->projMatrix * se->cam->GetViewMatrix();
+	glm::mat4 gVP = se->projMatrix * se->CurrentCamera->GetViewMatrix();
 
 	shad->use();
-	shad->setVec3("gEyeWorldPos", se->cam->Position);
+	shad->setVec3("gEyeWorldPos", se->CurrentCamera->Position);
 	shad->setMat4("gWorld", gWorld);
 	shad->setMat4("gVP", gVP);
 	shad->setFloat("gDispFactor", dispFactor);
@@ -120,7 +120,7 @@ void Terrain::draw(){
 	shad->setVec4("clipPlane", clipPlane*up);
 	shad->setVec3("u_LightColor", se->lightColor);
 	shad->setVec3("u_LightPosition", se->lightPos);
-	shad->setVec3("u_ViewPosition", se->cam->Position);
+	shad->setVec3("u_ViewPosition", se->CurrentCamera->Position);
 	shad->setVec3("fogColor", se->fogColor);
 	shad->setVec3("rockColor", rockColor);
 	shad->setVec3("seed", se->seed);
@@ -259,7 +259,7 @@ Terrain::~Terrain()
 
 void Terrain::updateTilesPositions() {
 	sceneElements* se = drawableObject::scene;
-	glm::vec2 camPosition(se->cam->Position.x, se->cam->Position.z);
+	glm::vec2 camPosition(se->CurrentCamera->Position.x, se->CurrentCamera->Position.z);
 	int whichTile = -1;
 	int howManyTiles = 0;
 

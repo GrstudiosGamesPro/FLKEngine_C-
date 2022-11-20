@@ -46,6 +46,12 @@
     <Filter Include="Librarys\AssimpLoadModels">
       <UniqueIdentifier>{10796954-4311-4709-9b0f-f7360d97b8ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Librarys\LUA">
+      <UniqueIdentifier>{b0793d53-cf3a-431f-adc1-de01768312f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\NewFilter1">
+      <UniqueIdentifier>{35489db1-da21-4824-978d-17a718f92575}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\camera.h">
@@ -129,9 +135,6 @@
     <ClInclude Include="Headers\FLKBehaviour.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="EngineData\CodeEditor.h">
-      <Filter>EngineData</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui_impl_glfw.cpp">
@@ -211,9 +214,6 @@
     </ClCompile>
     <ClCompile Include="Headers\FLKBehaviour.cpp">
       <Filter>Headers</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineData\CodeEditor.cpp">
-      <Filter>EngineData</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
