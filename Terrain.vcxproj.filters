@@ -46,9 +46,6 @@
     <Filter Include="Librarys\AssimpLoadModels">
       <UniqueIdentifier>{10796954-4311-4709-9b0f-f7360d97b8ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers\NewFilter1">
-      <UniqueIdentifier>{35489db1-da21-4824-978d-17a718f92575}</UniqueIdentifier>
-    </Filter>
     <Filter Include="EngineData\LuaCompiller">
       <UniqueIdentifier>{cfa80438-a1f6-4fc2-852c-97d0d6337cda}</UniqueIdentifier>
     </Filter>
@@ -117,9 +114,6 @@
     <ClInclude Include="DrawableObjects\drawableObject.h">
       <Filter>Header Files\DrawableObjects</Filter>
     </ClInclude>
-    <ClInclude Include="DrawableObjects\sceneElements.h">
-      <Filter>Header Files\DrawableObjects</Filter>
-    </ClInclude>
     <ClInclude Include="DrawableObjects\CloudsModel.h">
       <Filter>Header Files\DrawableObjects</Filter>
     </ClInclude>
@@ -137,6 +131,12 @@
     </ClInclude>
     <ClInclude Include="EngineData\LUA_FUNCTIONS\LuaCompiller.h">
       <Filter>EngineData\LuaCompiller</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GameObject.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\SceneComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +221,12 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="EngineData\LUA_FUNCTIONS\LuaCompiller.cpp">
       <Filter>EngineData\LuaCompiller</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\GameObject.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\SceneComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

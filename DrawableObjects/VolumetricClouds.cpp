@@ -23,7 +23,7 @@ void VolumetricClouds::draw() {
 
 	//Shader & cloudsShader = volumetricCloudsShader->getShader();
 	Shader & cloudsShader = *model->volumetricCloudsShader;
-	sceneElements* s = drawableObject::scene;
+	SceneComponent* s = drawableObject::scene;
 
 	cloudsShader.use();
 

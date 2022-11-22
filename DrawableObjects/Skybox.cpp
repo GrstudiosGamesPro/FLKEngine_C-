@@ -1,6 +1,6 @@
 #include "Skybox.h"
 
-#include "sceneElements.h"
+#include "../Components/SceneComponent.h"
 #include "../Engine/Window.h"
 #include "../imgui/imgui.h"
 
@@ -95,7 +95,7 @@ void Skybox::mixSkyColorPreset(float v, colorPreset p1, colorPreset p2) {
 
 
 void Skybox::draw() {
-	sceneElements * s = drawableObject::scene;
+	SceneComponent * s = drawableObject::scene;
 	skyboxFBO->bind();
 
 	Shader& shader = skyboxShader->getShader();

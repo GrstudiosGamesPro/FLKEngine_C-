@@ -1,5 +1,5 @@
 #include "Terrain.h"
-#include "sceneElements.h"
+#include "../Components/SceneComponent.h"
 #include <GLFW/glfw3.h>
 #include "../imgui/imgui.h"
 #include "../Engine/utils.h"
@@ -97,9 +97,7 @@ bool Terrain::getWhichTileCameraIs(glm::vec2& result) {
 
 
 void Terrain::draw(){
-
-
-	sceneElements* se = drawableObject::scene;
+	SceneComponent* se = drawableObject::scene;
 
 	drawFog = !se->wireframe;
 
@@ -258,7 +256,7 @@ Terrain::~Terrain()
 }
 
 void Terrain::updateTilesPositions() {
-	sceneElements* se = drawableObject::scene;
+	SceneComponent* se = drawableObject::scene;
 	glm::vec2 camPosition(se->CurrentCamera->Position.x, se->CurrentCamera->Position.z);
 	int whichTile = -1;
 	int howManyTiles = 0;

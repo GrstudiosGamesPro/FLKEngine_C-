@@ -148,10 +148,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Components\GameObject.h" />
+    <ClInclude Include="Components\SceneComponent.h" />
     <ClInclude Include="DrawableObjects\CloudsModel.h" />
     <ClInclude Include="DrawableObjects\drawableObject.h" />
     <ClInclude Include="DrawableObjects\GUI.h" />
-    <ClInclude Include="DrawableObjects\sceneElements.h" />
     <ClInclude Include="DrawableObjects\Skybox.h" />
     <ClInclude Include="DrawableObjects\Terrain.h" />
     <ClInclude Include="DrawableObjects\VolumetricClouds.h" />
@@ -181,6 +182,8 @@
     <ClCompile Include="Compile\glad.c" />
     <ClCompile Include="Compile\stb_image.cpp" />
     <ClCompile Include="Compile\stb_image_write.cpp" />
+    <ClCompile Include="Components\GameObject.cpp" />
+    <ClCompile Include="Components\SceneComponent.cpp" />
     <ClCompile Include="DrawableObjects\CloudsModel.cpp" />
     <ClCompile Include="DrawableObjects\drawableObject.cpp" />
     <ClCompile Include="DrawableObjects\GUI.cpp" />

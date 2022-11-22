@@ -25,7 +25,7 @@
 
 #include "Engine/glError.h"
 
-#include "DrawableObjects/sceneElements.h"
+#include "Components/SceneComponent.h"
 #include "DrawableObjects/drawableObject.h"
 #include "DrawableObjects/GUI.h"
 
@@ -37,42 +37,49 @@
 #include "../imgui/imgui_impl_glfw.h"
 #include "../imgui/imgui_impl_opengl3.h"
 #include "EngineData/HudRender.h"
+#include "Components/GameObject.h"
+
+#include <list>
+using namespace std;
+using namespace glm;
 
 HudRender* hud = new HudRender();
+
 Camera camera = Camera();
-sceneElements scene;
+Camera camera2 = Camera();
+
+SceneComponent scene;
 
 int main()
 {
-
-	glm::vec3 startPosition(0.0f, 800.0f, 0.0f);
+	vec3 startPosition(0.0f, 800.0f, 0.0f);
 	camera.Position = startPosition;
 
 	int success;
-	Window window(success, 500, 700);
+	Window window(success, 1920, 1080);
 	if (!success) return -1;
 
 	window.camera = &camera;
 
 	GUI gui(window);
 
-	glm::vec3 fogColor(0.5,0.6,0.7);
-	glm::vec3 lightColor(255, 255, 230);
+	vec3 fogColor(0.5,0.6,0.7);
+	vec3 lightColor(255, 255, 230);
 	lightColor /= 255.0;
 
 	FrameBufferObject SceneFBO(Window::SCR_WIDTH, Window::SCR_HEIGHT);
-	glm::vec3 lightPosition, seed;
-	glm::mat4 proj = glm::perspective(glm::radians(camera.Zoom), (float)Window::SCR_WIDTH / (float)Window::SCR_HEIGHT, 5.f, 10000000.0f);
-	glm::vec3 lightDir = glm::vec3(-.5, 45, 1.0);
+	vec3 lightPosition, seed;
+	mat4 proj = perspective(radians(camera.Zoom), (float)Window::SCR_WIDTH / (float)Window::SCR_HEIGHT, 5.f, 10000000.0f);
+	vec3 lightDir = vec3(-.5, 45, 1.0);
 
-		scene.lightPos = lightPosition;
-		scene.lightColor = lightColor;
-		scene.fogColor = fogColor;
-		scene.seed = seed;
-		scene.projMatrix = proj;
-		scene.CurrentCamera = &camera;
-		scene.sceneFBO = &SceneFBO;
-		scene.lightDir = lightDir;
+	scene.lightPos = lightPosition;
+	scene.lightColor = lightColor;
+	scene.fogColor = fogColor;
+	scene.seed = seed;
+	scene.projMatrix = proj;
+	scene.CurrentCamera = &camera;
+	scene.sceneFBO = &SceneFBO;
+	scene.lightDir = lightDir;
 	
 
 	drawableObject::scene = &scene;
@@ -81,7 +88,7 @@ int main()
 	Terrain terrain(gridLength);
 
 	float waterHeight = 120.;
-	Water water(glm::vec2(0.0, 0.0), gridLength, waterHeight);
+	Water water(vec2(0.0, 0.0), gridLength, waterHeight);
 	terrain.waterPtr = &water;
 
 	Skybox skybox;
@@ -96,11 +103,15 @@ int main()
 		.subscribe(&water);
 
 	ScreenSpaceShader PostProcessing("shaders/post_processing.frag");
-	ScreenSpaceShader fboVisualizer("shaders/visualizeFbo.frag");
+	ScreenSpaceShader fboVisualizer("shaders/visualizeFbo.frag"); 
+
+	hud->Scene = scene;
+
 
 	while (window.continueLoop())
 	{
-		scene.lightDir = glm::normalize(scene.lightDir);
+		scene.lightDir = normalize(scene.lightDir);
+		scene.lightPos = scene.lightDir * 1e6f + camera.Position;
 		scene.lightPos = scene.lightDir*1e6f + camera.Position;
 
 		float frametime = 1 / ImGui::GetIO().Framerate;
@@ -137,8 +148,8 @@ int main()
 		}
 
 
-		glm::mat4 view = scene.CurrentCamera->GetViewMatrix();
-		scene.projMatrix = glm::perspective(glm::radians(camera.Zoom), (float)Window::SCR_WIDTH / (float)Window::SCR_HEIGHT, 5.f,10000000.0f);
+		mat4 view = scene.CurrentCamera->GetViewMatrix();
+		scene.projMatrix = perspective(radians(camera.Zoom), (float)Window::SCR_WIDTH / (float)Window::SCR_HEIGHT, 5.f,10000000.0f);
 
 		
 		//draw to water reflection buffer object
@@ -162,7 +173,7 @@ int main()
 		
 		Shader& post = PostProcessing.getShader();
 		post.use();
-		post.setVec2("resolution", glm::vec2(1280, 720));
+		post.setVec2("resolution", vec2(1280, 720));
 		post.setSampler2D("screenTexture", reflFBO.tex, 0);
 		post.setSampler2D("depthTex", reflFBO.depthTex, 2);
 		post.setSampler2D("cloudTEX", reflectionVolumetricClouds.getCloudsRawTexture(), 1);
@@ -199,7 +210,7 @@ int main()
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		post.use();
-		post.setVec2("resolution", glm::vec2(Window::SCR_WIDTH, Window::SCR_HEIGHT));
+		post.setVec2("resolution", vec2(Window::SCR_WIDTH, Window::SCR_HEIGHT));
 		post.setVec3("cameraPosition", scene.CurrentCamera->Position);
 		post.setSampler2D("screenTexture", SceneFBO.tex, 0);
 		post.setSampler2D("cloudTEX", volumetricClouds.getCloudsTexture(), 1);

@@ -1,7 +1,7 @@
 #ifndef DRAWABLEOBJECT_H
 #define DRAWABLEOBJECT_H
 
-#include "sceneElements.h"
+#include "../Components/SceneComponent.h"
 
 class drawableObject
 {
@@ -13,7 +13,7 @@ public:
 	//if the class will cointain some logic, so it must be refreshed at each game loop cycle by calling update. Otherwise just don't override it.  
 	virtual void update() {};
 
-	static sceneElements* scene;
+	static SceneComponent* scene;
 };
 
 #endif

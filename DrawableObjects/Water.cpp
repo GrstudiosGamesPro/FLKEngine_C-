@@ -1,5 +1,5 @@
 #include "Water.h"
-#include "sceneElements.h"
+#include "../Components/SceneComponent.h"
 #include "Terrain.h"
 #include "../imgui/imgui.h"
 #include "../Engine/utils.h"
@@ -64,7 +64,7 @@ void Water::draw() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	sceneElements * se = drawableObject::scene;
+	SceneComponent * se = drawableObject::scene;
 
 	//this->setPosition(glm::vec2(se->cam.Position[0], se->cam.Position[2]), scale, height);
 	this->setHeight(height);

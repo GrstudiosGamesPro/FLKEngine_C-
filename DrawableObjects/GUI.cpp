@@ -18,7 +18,7 @@ GUI::GUI(Window& window)
 
 void GUI::draw()
 {
-		sceneElements& scene = *this->scene;
+		SceneComponent& scene = *this->scene;
 
 		for (drawableObject* obj : subscribers) {
 			obj->setGui();
