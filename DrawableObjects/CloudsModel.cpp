@@ -44,7 +44,7 @@ void CloudsModel::setGui() {
 	}
 }
 
-CloudsModel::CloudsModel(sceneElements * scene, Skybox * sky) : scene(scene), sky(sky)
+CloudsModel::CloudsModel(SceneComponent * scene, Skybox * sky) : scene(scene), sky(sky)
 {
 	initVariables();
 	initShaders();

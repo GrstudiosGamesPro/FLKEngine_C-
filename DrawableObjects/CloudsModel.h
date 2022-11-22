@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "../Engine/Shader.h"
-#include "sceneElements.h"
+#include "../Components/SceneComponent.h"
 #include "../Engine/ScreenSpaceShader.h"
 #include "../imgui/imgui.h"
 #include "Skybox.h"
@@ -15,7 +15,7 @@ class CloudsModel : public drawableObject
 public:
 	friend class VolumetricClouds;
 
-	CloudsModel(sceneElements * scene, Skybox * sky);
+	CloudsModel(SceneComponent * scene, Skybox * sky);
 	~CloudsModel();
 	
 	// fake implementation, it's needed to let this class being a drawableObject to subscribe to GUI class. must be fixed
@@ -40,7 +40,7 @@ private:
 	glm::vec3 seed, oldSeed;
 	unsigned int perlinTex, worley32, weatherTex;
 
-	sceneElements * scene;
+	SceneComponent * scene;
 	Skybox * sky;
 
 	void generateWeatherMap();

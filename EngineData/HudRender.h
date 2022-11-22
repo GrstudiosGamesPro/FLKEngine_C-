@@ -16,7 +16,10 @@ public:
 	CloudsModel* clouds;
 	Terrain* terrain;
 	drawableObject* uiGUIControls;
-	
+	SceneComponent Scene;
+	GameObject* CurrentObjectSelect;
+	bool CreatingNewOBJ;
+
 public:
 	virtual void RenderHUD();
 };
