@@ -38,8 +38,10 @@
 #include "../imgui/imgui_impl_opengl3.h"
 #include "EngineData/HudRender.h"
 #include "Components/GameObject.h"
-
+#include "Include/IrrKlang/irrKlang.h"
 #include <list>
+
+using namespace irrklang;
 using namespace std;
 using namespace glm;
 
@@ -49,6 +51,7 @@ Camera camera = Camera();
 Camera camera2 = Camera();
 
 SceneComponent scene;
+ISoundEngine* SoundEngine = createIrrKlangDevice();
 
 int main()
 {
@@ -106,7 +109,8 @@ int main()
 	ScreenSpaceShader fboVisualizer("shaders/visualizeFbo.frag"); 
 
 	hud->Scene = scene;
-
+	SoundEngine->play2D("F:/GameEngines VS/FLKEngine_C-/Music/Stellar.mp3", true);
+	SoundEngine->setSoundVolume (0.1f);
 
 	while (window.continueLoop())
 	{

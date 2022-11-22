@@ -156,9 +156,10 @@ void HudRender::RenderHUD()
 				if (ImGui::Button ("Cubo"))
 				{
 					GameObject* obj = new GameObject();
-					string ObjectName = "Objeto";
-					strcpy_s (obj->NameObject, ObjectName.c_str());
-					
+					string oldName = "Objeto";
+					string ObjectName = oldName.append (to_string (Scene.Objetos->size()));
+
+					strcpy_s (obj->NameObject, ObjectName.c_str());		
 					Scene.Objetos->push_back (obj);
 
 					cout << obj->NameObject;
@@ -241,18 +242,28 @@ void HudRender::RenderHUD()
 		ImGui::End();
 	}
 
-
-	if (ImGui::Begin("Inspector")) {
-		if (CurrentObjectSelect != nullptr) {
+	if (CurrentObjectSelect != nullptr) {
+		if (ImGui::Begin("Inspector")) {
 			GameObject* obj = CurrentObjectSelect;
 
 			char name[128];
-			strcpy_s (name, obj->NameObject);
+			strcpy_s(name, obj->NameObject);
+
+			string GetIndex = "Index: ";
 
 			ImGui::InputText("Name: ", name, ImGuiInputTextFlags_AutoSelectAll);
 			strcpy_s(obj->NameObject, name);
 
+			ImGui::Separator();
+
+			for (int i = 0; i < Scene.Objetos->size(); i++) {
+				if ((*Scene.Objetos)[i] == CurrentObjectSelect) {
+					string NewIndex = GetIndex.append(to_string(i));
+					ImGui::Text (NewIndex.c_str());
+				}
+			}
 		}
+
 		ImGui::End();
 	}
 }
